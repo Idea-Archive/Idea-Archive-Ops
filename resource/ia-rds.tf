@@ -36,6 +36,6 @@ resource "aws_db_instance" "ia-backend-database" {
     identifier = "ia-mysql"
     username = "admin"
     password = var.db_password
-    name = "ia-database"
+    name = "iaDatabase"
     port = "3306"
 }
