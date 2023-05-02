@@ -10,6 +10,17 @@ resource "aws_instance" "ia-bastion" {
     }
 }
 
+resource "aws_instance" "ia-main-server" {
+    ami = "ami-04cebc8d6c4f297a3"
+    instance_type = "t3.micro"
+    subnet_id = "${aws_subnet.ia-private-subnet-2a.id}"
+    vpc_security_group_ids = [aws_security_group.ia-main-server-sg.id]
+    key_name = "IA_KEY"
+
+    tags = {
+        Name = "ia-main-server"
+    }
+}   
 
 resource "aws_eip" "ia-bastion-eip" {
     instance = aws_instance.ia-bastion.id
@@ -26,7 +37,6 @@ resource "aws_eip_association" "ia-bastion-eip-association" {
 }
 
 resource "aws_security_group" "ia-bastion-sg" {
-    name = var.security_group_name
     vpc_id = "${aws_vpc.ia-vpc.id}"
 
     ingress {
@@ -41,8 +51,18 @@ resource "aws_security_group" "ia-bastion-sg" {
     }
 }
 
-variable "security_group_name" {
-    description = "The name of the security group"
-    type = string
-    default = "terraform-example-instance"
+resource "aws_security_group" "ia-main-server-sg" {
+    vpc_id = "${aws_vpc.ia-vpc.id}"
+
+    ingress {
+        from_port = 22
+        to_port = 22
+        protocol = "tcp"
+        security_groups = [aws_security_group.ia-bastion-sg.id]
+    }
+
+    tags = {
+        Name = "ia-main-server-sg"
+    }
+
 }
