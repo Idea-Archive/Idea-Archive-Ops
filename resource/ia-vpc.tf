@@ -119,6 +119,12 @@ resource "aws_route_table_association" "ia-private-rt-association-2" {
     route_table_id = aws_route_table.ia-private-rtb.id
 }
 
+resource "aws_route" "public-rt-igw" {
+    route_table_id = aws_route_table.ia-public-rtb.id
+    destination_cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.ia-igw.id
+}
+
 resource "aws_route" "private_rt_nat" {
     route_table_id = aws_route_table.ia-private-rtb.id
     destination_cidr_block = "0.0.0.0/0"
