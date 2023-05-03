@@ -4,8 +4,8 @@
 ### Terraform ###
 # Local .terraform directories
 **/.terraform/*
-resource/ia-provider.tf
-resource/variable.tf
+ia-provider.tf
+variable.tf
 
 # .tfstate files
 *.tfstate
