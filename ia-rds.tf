@@ -31,7 +31,7 @@ resource "aws_db_instance" "ia-backend-database" {
     vpc_security_group_ids = [aws_security_group.ia-rds-sg.id]
     engine = "mysql"
     engine_version = "8.0.32"
-    instance_class = "db.m6g.large"
+    instance_class = "db.t3.micro"
     skip_final_snapshot = true
     identifier = "ia-mysql"
     username = "admin"
