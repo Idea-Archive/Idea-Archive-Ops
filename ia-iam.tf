@@ -2,20 +2,21 @@ resource "aws_iam_role" "ia-codepipeline-role" {
     name = "ia-codepipeline-role"
 
     assume_role_policy = <<EOF
-    {
-        "Version": "2012-10-17",
-        "Statement" : [
+{
+    "Version": "2012-10-17",
+    "Statement" : [
+        {
+            "Action":"sts:AssumeRole",
+            "Principal" : 
             {
-                "Action":"sts:AssumeRole",
-                "Principal" : {
-                    "Service": "codepipeline.amazonaws.com"
-                },
-                "Effect" : "Allow",
-                "Sid" : ""
-            }
-        ]
-    }
-    EOF
+                "Service": "codepipeline.amazonaws.com"
+            },
+        "Effect" : "Allow",
+        "Sid" : ""
+        }
+    ]
+}
+EOF
 
     tags = {
         Name = "ia-codepipeline-role"
