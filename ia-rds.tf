@@ -1,8 +1,8 @@
 resource "aws_db_subnet_group" "ia-subnet-group" {
     name = "ia-subnet-group"
     subnet_ids = [
-        aws_subnet.ia-private-subnet-2a.id,
-        aws_subnet.ia-private-subnet-2b.id
+        aws_subnet.ia-public-subnet-2a.id,
+        aws_subnet.ia-public-subnet-2b.id
     ]
 }
 
@@ -15,7 +15,7 @@ resource "aws_security_group" "ia-rds-sg" {
         from_port = 3306
         to_port = 3306
         protocol = "tcp"
-        security_groups = [aws_security_group.ia-main-server-sg.id]
+        cidr_blocks = ["0.0.0.0/0"]
     }
 
     tags = {
@@ -33,6 +33,7 @@ resource "aws_db_instance" "ia-backend-database" {
     engine_version = "8.0.32"
     instance_class = "db.t3.micro"
     skip_final_snapshot = true
+    publicly_accessible = true
     identifier = "ia-mysql"
     username = "admin"
     password = var.db_password
